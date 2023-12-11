@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="/icons/partly cloudy sun.png" >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Playfair+Display&family=Poppins:wght@200&family=Shippori+Mincho&family=Work+Sans:wght@200;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+<div class="card" id="maincard">
+    <div class="search">
+        <input type="text" placeholder="Enter City Name" spellcheck="false">
+        <button><img src="images/search.png" alt=""></button>
+    </div>
+    <div class="weather">
+        <img class="weather-icon" data-weather-icon width="150px" height="150px">
+
+        <h1 class="temp"></h1>
+        <h2 class="city"></h2>
+        <div id="row1">
+
+        <div class="details">
+            <div class="col">
+                <img src="images/humidity.png">
+                <div>
+                    <p>Humidity</p>
+
+                    <p class="humidity"></p>
+                </div>
+            </div>
+
+            <div class="col">
+                <img src="images/wind.png">
+                <div>
+                    <p>Wind Speed</p>
+                    <p class="wind"></p>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+        <div id="row2">
+
+            <div class="details">
+                <div class="col">
+                    <img src="images/thermometer.png">
+                    <div>
+                        <p>Feels Like</p>
+                        <p class="feels-like"></p>
+                    </div>
+                </div>
+    
+            </div>
+    
+            </div>
+
+
+    </div>
+</div>
+
+<script type="module" src="/main.js"></script>
+
+</body>
+<footer>© Akeel Butt. All rights reserved.</footer>
+
+</html>
