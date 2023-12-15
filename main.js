@@ -1,4 +1,4 @@
-import { getWeather } from "./weather";
+import { getWeather, getWeatherZip } from "./weather";
 import { searchBox } from "./weather";
 import { searchBtn } from "./weather";
 import { ICON_MAP } from "./iconMap";
@@ -14,14 +14,36 @@ searchBox.addEventListener("keydown", function (event) {
     }
 })
 // Find weather of city user entered and render all of the data
-function mainFunction(){
-getWeather(searchBox.value)
-.then(renderWeather)
-.catch( error => {
-    console.error(error)
-    alert("Error fetching weather. Please try another city.")
-})
+function mainFunction() {
+    const inputValue = searchBox.value.trim();
+
+    // Check if the input value is a valid number
+    if (!isNaN(inputValue)) {
+        console.log('It is a number:', inputValue);
+
+        // Convert the input value to a number if needed
+        const zipCode = parseInt(inputValue, 10);
+
+        // Call the appropriate function based on the input type
+        getWeatherZip(zipCode)
+            .then(renderWeather)
+            .catch(error => {
+                console.error(error);
+                alert('Error fetching weather. Please try another city.');
+            });
+    } else {
+        console.log('It is a string:', inputValue);
+
+        // Call the function for string input
+        getWeather(inputValue)
+            .then(renderWeather)
+            .catch(error => {
+                console.error(error);
+                alert('Error fetching weather. Please try another city.');
+            });
     }
+}
+
 
 function renderWeather({ current }) {
     renderCurrentWeather(current)

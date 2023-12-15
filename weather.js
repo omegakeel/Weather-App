@@ -1,16 +1,30 @@
 import axios from "axios";
-const apiURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial&q="
+const apiURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial"
 const apiKey = import.meta.env.VITE_API_KEY;
 
-export const searchBox = document.querySelector(".search input");
+export const searchBox = document.querySelector(".searchbox");
 export const searchBtn = document.querySelector(".search button");
 
 
 //Code used to fetch API and parse weather data
-export function getWeather(city) {
-  return axios.get(apiURL + city + `&appid=${apiKey}`)
+export function getWeather(city, zipcode) {
+  return axios.get(apiURL + `&q=${city}` + `&zip=${zipcode}` +`&appid=${apiKey}`)
       .then(({ data }) => {
-        //   console.log("API Response:", data); // Log the entire API response
+          console.log("API Response:", data); // Log the entire API response
+          return {
+              current: parseCurrentWeather(data),
+          };
+      })
+      .catch((error) => {
+          console.error("Error fetching weather:", error);
+          throw error; // Re-throw the error to be caught in your mainFunction
+      });
+}
+
+export function getWeatherZip(zipcode) {
+  return axios.get(apiURL + `&zip=${zipcode}` +`&appid=${apiKey}`)
+      .then(({ data }) => {
+          console.log("API Response:", data); // Log the entire API response
           return {
               current: parseCurrentWeather(data),
           };
