@@ -7,8 +7,8 @@ export const searchBtn = document.querySelector(".search button");
 
 
 //Code used to fetch API and parse weather data
-export function getWeather(city, zipcode) {
-  return axios.get(apiURL + `&q=${city}` + `&zip=${zipcode}` +`&appid=${apiKey}`)
+export function getWeather(city) {
+  return axios.get(apiURL + `&q=${city}` +`&appid=${apiKey}`)
       .then(({ data }) => {
           console.log("API Response:", data); // Log the entire API response
           return {
