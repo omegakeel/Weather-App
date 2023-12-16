@@ -1,4 +1,5 @@
 import { getWeather, getWeatherZip } from "./weather";
+import { getTime } from "./weather";
 import { searchBox } from "./weather";
 import { searchBtn } from "./weather";
 import { ICON_MAP } from "./iconMap";
@@ -19,8 +20,6 @@ function mainFunction() {
 
     // Check if the input value is a valid number
     if (!isNaN(inputValue)) {
-        console.log('It is a number:', inputValue);
-
         // Convert the input value to a number if needed
         const zipCode = parseInt(inputValue, 10);
 
@@ -32,8 +31,6 @@ function mainFunction() {
                 alert('Error fetching weather. Please try another city.');
             });
     } else {
-        console.log('It is a string:', inputValue);
-
         // Call the function for string input
         getWeather(inputValue)
             .then(renderWeather)
@@ -57,23 +54,67 @@ function getIconUrlNight(iconCode){
     return `icons/${ICON_MAP_NIGHT.get(iconCode)}.png`
 }
 
-const currentIcon = document.querySelector(".weather-icon")
-
+const currentIcon = document.querySelector(".weather-icon");
+const sunPos = document.querySelector(".sun-rise-set");
 
 function renderCurrentWeather(current) {
+const lat = current.latitude;
+const lon = current.longitude;
+const sunset = current.sunset;
+const sunrise = current.sunrise;
+let time;
+let timezone;
+getTime(lat, lon).then (
+    data => {
+        time = data.main.time;
+        timezone = data.main.timeZ
 
-if(current.timeNow>current.sunset){ //Night Time
+        const options = {
+            timeZone: timezone,
+            hour12: false,
+            hour: "2-digit",
+            minute: "2-digit",
+        }
+        
+        const finalSunset = sunset.toLocaleString("en-US", options)
+
+        if(time>finalSunset){ //Night Time
+            const options = {
+                timeZone: timezone,
+                hour12: true,
+                hour: "2-digit",
+                minute: "2-digit",
+            }
+            const finalSunrise = sunrise.toLocaleString("en-US", options)
     currentIcon.src = getIconUrlNight(current.iconCode)
     var card = document.getElementById("maincard");
     card.classList.remove("cardday");
     card.classList.add("cardnight");
+    document.querySelector(".set-rise").textContent = "Sunrise"
+    document.querySelector(".sun-pos").textContent = finalSunrise;
+    sunPos.src = "images/sunrise.png";
 }
-else if(current.timeNow<current.sunset){ // Day Time
+else if(time<finalSunset){ // Day Time
+    const options = {
+        timeZone: timezone,
+        hour12: true,
+        hour: "2-digit",
+        minute: "2-digit",
+    }
+
+        const finalSunset = sunset.toLocaleString("en-US", options)
 currentIcon.src = getIconUrl(current.iconCode);
 var card = document.getElementById("maincard");
     card.classList.remove("cardnight");
     card.classList.add("cardday")
+    document.querySelector(".set-rise").textContent = "Sunset"
+    document.querySelector(".sun-pos").textContent = finalSunset;
+    sunPos.src = "images/sunset.png";
+
 }
+    }
+)
+
     document.querySelector(".city").textContent = current.cityName
     document.querySelector(".temp").textContent = current.currentTemp + "°F"
     document.querySelector(".humidity").textContent = current.humidity + "%"

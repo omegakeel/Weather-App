@@ -2,15 +2,45 @@ import axios from "axios";
 const apiURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial"
 const apiKey = import.meta.env.VITE_API_KEY;
 
+const geoURL = "https://api.ipgeolocation.io/timezone?"
+const geoKey = import.meta.env.VITE_API_KEY2;
+
 export const searchBox = document.querySelector(".searchbox");
 export const searchBtn = document.querySelector(".search button");
+
+
+export function getTime(lat, long){
+    return axios.get(
+        geoURL + `apiKey=${geoKey}`,
+        {
+            params : {
+                lat,
+                long,
+            },
+        }
+    ).then(({ data }) => {
+        return {
+            main: parseGeo(data)
+        }
+    })
+}
+
+function parseGeo({ time_24, timezone }) {
+    const time = time_24
+    const timeZ = timezone
+
+    return {
+        time,
+        timeZ,
+    }
+}  
 
 
 //Code used to fetch API and parse weather data
 export function getWeather(city) {
   return axios.get(apiURL + `&q=${city}` +`&appid=${apiKey}`)
       .then(({ data }) => {
-          console.log("API Response:", data); // Log the entire API response
+        //   console.log("Weather API Response:", data); // Log the entire API response
           return {
               current: parseCurrentWeather(data),
           };
@@ -24,7 +54,7 @@ export function getWeather(city) {
 export function getWeatherZip(zipcode) {
   return axios.get(apiURL + `&zip=${zipcode}` +`&appid=${apiKey}`)
       .then(({ data }) => {
-          console.log("API Response:", data); // Log the entire API response
+        //   console.log("API Response:", data); // Log the entire API response
           return {
               current: parseCurrentWeather(data),
           };
@@ -35,7 +65,7 @@ export function getWeatherZip(zipcode) {
       });
 }
 
-function parseCurrentWeather({ main, name, wind, weather, sys, timezone, dt }) { //parse data and make the variables easier to read
+function parseCurrentWeather({ main, name, wind, weather, sys, dt, coord}) { //parse data and make the variables easier to read
     const {
       temp: currentTemp,
       feels_like: feelsLike,
@@ -55,8 +85,14 @@ const iconCode = weather[0].id
         sunset
     } = sys
 
-    const timeZ = timezone
+    // const timeZ = timezone
     const timeNow = dt
+
+    const {
+        lat: latitude,
+        lon: longitude
+    } = coord
+
 
     return {
       cityName,
@@ -65,10 +101,11 @@ const iconCode = weather[0].id
       feelsLike: Math.round(feelsLike),
       humidity: Math.round(humidity),
       iconCode,
-      sunrise: new Date(sunrise*1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }),
-      sunset: new Date(sunset * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }),
-      timeZ,
-      timeNow: new Date(timeNow*1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
+      sunrise: new Date(sunrise*1000),
+      sunset: new Date(sunset * 1000),
+      timeNow,
+      latitude,
+      longitude
     }
   }
 
