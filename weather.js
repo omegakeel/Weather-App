@@ -47,7 +47,7 @@ export function getWeather(city) {
       })
       .catch((error) => {
           console.error("Error fetching weather:", error);
-          throw error; // Re-throw the error to be caught in your mainFunction
+          throw error; // Re-throw the error to be caught in mainFunction
       });
 }
 
@@ -61,7 +61,7 @@ export function getWeatherZip(zipcode) {
       })
       .catch((error) => {
           console.error("Error fetching weather:", error);
-          throw error; // Re-throw the error to be caught in your mainFunction
+          throw error; // Re-throw the error to be caught in mainFunction
       });
 }
 
