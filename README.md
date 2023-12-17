@@ -1,7 +1,7 @@
 # Weather-App
 [Click here to try!](https://weather-5ud4kpeyx-akeel-butts-projects.vercel.app/)
 
-![Weather App Screenshot](images/weather app ss.png)
+![Weather App Screenshot](images/weather-app-ss.png)
 
 ## Overview
 
