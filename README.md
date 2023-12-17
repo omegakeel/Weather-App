@@ -1,6 +1,8 @@
 # Weather-App
 [Click here to try!](https://weather-5ud4kpeyx-akeel-butts-projects.vercel.app/)
 
+![Weather App Screenshot](images/weather app ss.png)
+
 ## Overview
 
 This project is weather web application that allows users to check the current weather conditions for a given city or zip code. The application displays key weather information, including temperature, humidity, wind speed, and more. Additionally, it dynamically adjusts the background and icon based on the time of day.
