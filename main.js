@@ -21,13 +21,14 @@ function mainFunction() {
     // Check if the input value is a valid number
     if (!isNaN(inputValue)) {
         // Convert the input value to a number if needed
-        const zipCode = parseInt(inputValue, 10);
+        const zipCode = inputValue;
 
         // Call the appropriate function based on the input type
         getWeatherZip(zipCode)
             .then(renderWeather)
             .catch(error => {
-                console.error(error);
+                console.error("Error fetchig weather.", error);
+                console.log("API Response:", error.response.data);
                 alert('Error fetching weather. Please try another city.');
             });
     } else {
