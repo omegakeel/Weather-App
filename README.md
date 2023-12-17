@@ -59,7 +59,6 @@ This project is weather web application that allows users to check the current w
 
 - If you encounter any issues or have suggestions for improvements, feel free to open an issue or contribute to the project.
 
-- This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 
 ## Author
